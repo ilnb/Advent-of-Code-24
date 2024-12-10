@@ -61,78 +61,68 @@ int main() {
   FILE *fp = fopen("input.txt", "r");
   int safe = 0, allowed = 0;
   for (int i = 0; i < LEN; i++) {
-    int n = 0, p = 0;
+    int count = 0, p = 0;
     char c;
     while ((c = fgetc(fp)) != '\n') {
       if (c == ' ') {
-        n++;
+        count++;
       }
       p++;
     }
-    n++, p++;
+    count++, p++;
+    int *num = malloc(sizeof(int) * count);
     fseek(fp, -p, SEEK_CUR);
-    int *arr = malloc(sizeof(int) * n), l;
-    for (int k = 0; k < n - 1; k++) {
-      l = 0;
-      while ((c = fgetc(fp)) != ' ') {
-        l += (c - 48);
-        l *= 10;
-      }
-      arr[k] = l / 10;
+    for (int j = 0; j < count - 1; j++) {
+      fscanf(fp, "%d ", &num[j]);
     }
-    l = 0;
-    while ((c = fgetc(fp)) != '\n') {
-      l += (c - 48);
-      l *= 10;
+    fscanf(fp, "%d\n", &num[count - 1]);
+    int *temp = malloc(sizeof(int) * count);
+    for (int j = 0; j < count; j++) {
+      temp[j] = num[j];
     }
-    arr[n - 1] = l / 10;
-    int *temp = malloc(sizeof(int) * n);
-    for (int j = 0; j < n; j++) {
-      temp[j] = arr[j];
+    int *diff = malloc(sizeof(int) * (count - 1));
+    for (int j = 0; j < count - 1; j++) {
+      diff[j] = num[j + 1] - num[j];
     }
-    int *diff = malloc(sizeof(int) * (n - 1));
-    for (int j = 0; j < n - 1; j++) {
-      diff[j] = arr[j + 1] - arr[j];
-    }
-    int index;
-    l = safetyCheckPtr(diff, n - 1, &index);
+    int index, l;
+    l = safetyCheckPtr(diff, count - 1, &index);
     if (l == 1) {
       safe++;
     } else {
-      elRemove(arr, n, index);
-      for (int j = 0; j < n - 2; j++) {
-        diff[j] = arr[j + 1] - arr[j];
+      elRemove(num, count, index);
+      for (int j = 0; j < count - 2; j++) {
+        diff[j] = num[j + 1] - num[j];
       }
-      l = safetyCheck(diff, n - 2);
+      l = safetyCheck(diff, count - 2);
       if (l == 1) {
         allowed++;
       } else {
-        for (int j = 0; j < n; j++) {
-          arr[j] = temp[j];
+        for (int j = 0; j < count; j++) {
+          num[j] = temp[j];
         }
-        elRemove(arr, n, index + 1);
-        for (int j = 0; j < n - 2; j++) {
-          diff[j] = arr[j + 1] - arr[j];
+        elRemove(num, count, index + 1);
+        for (int j = 0; j < count - 2; j++) {
+          diff[j] = num[j + 1] - num[j];
         }
-        l = safetyCheck(diff, n - 2);
+        l = safetyCheck(diff, count - 2);
         if (l == 1) {
           allowed++;
         } else if (index > 0) {
-          for (int j = 0; j < n; j++) {
-            arr[j] = temp[j];
+          for (int j = 0; j < count; j++) {
+            num[j] = temp[j];
           }
-          elRemove(arr, n, index - 1);
-          for (int j = 0; j < n - 2; j++) {
-            diff[j] = arr[j + 1] - arr[j];
+          elRemove(num, count, index - 1);
+          for (int j = 0; j < count - 2; j++) {
+            diff[j] = num[j + 1] - num[j];
           }
-          l = safetyCheck(diff, n - 2);
+          l = safetyCheck(diff, count - 2);
           if (l == 1) {
             allowed++;
           }
         }
       }
     }
-    free(arr);
+    free(num);
     free(diff);
   }
   printf("safe: %d\nallowed: %d\ntotal: %d\n", safe, allowed, safe + allowed);
