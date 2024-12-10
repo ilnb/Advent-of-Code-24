@@ -55,5 +55,6 @@ int main(void) {
   printf("Distance: %d\nSimilarity score: %d\n", dis, sim);
   free(data.num1);
   free(data.num2);
+  free(fp);
   return 0;
 }
