@@ -108,5 +108,6 @@ int main(void) {
   }
   printf("xmas: %d\nmas: %d\n", xmas, mas);
   free(line);
+  fclose(fp);
   return 0;
 }
