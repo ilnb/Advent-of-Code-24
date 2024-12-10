@@ -9,7 +9,6 @@ typedef struct rule {
 } rule;
 
 int checkUpdate(rule *, int *, int);
-void reverse(int *, int);
 void fixer(rule *, int *, int);
 
 int main(void) {
@@ -51,7 +50,6 @@ int main(void) {
     }
     // invalid ones
     if (p > 0) {
-      reverse(kek, p);
       fixer(rules, kek, p);
       rest += kek[p / 2];
     }
@@ -84,18 +82,6 @@ int checkUpdate(rule *rules, int *updates, int count) {
     }
   }
   return flag;
-}
-
-void reverse(int *arr, int n) {
-  for (int j = n - 1; j >= 1; j--) {
-    for (int i = 0; i < j; i++) {
-      if (arr[i] > arr[i + 1]) {
-        int t = arr[i];
-        arr[i] = arr[i + 1];
-        arr[i + 1] = t;
-      }
-    }
-  }
 }
 
 void fixer(rule *rules, int *kek, int count) {
