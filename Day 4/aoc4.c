@@ -6,7 +6,6 @@
 
 typedef struct data {
   char *str;
-  int len;
 } data;
 
 int main(void) {
@@ -21,7 +20,6 @@ int main(void) {
       line[j].str[i] = c;
       i++;
     }
-    line[j].len = LEN;
   }
   // horizontal
   for (int i = 0; i < LEN; i++) {
