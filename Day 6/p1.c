@@ -51,6 +51,8 @@ int main(void) {
   if (flag) {
     printf("steps: %d\n", steps);
   }
+  fclose(fp);
+  free(line);
   return 0;
 }
 
