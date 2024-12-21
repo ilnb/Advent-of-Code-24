@@ -23,9 +23,7 @@ int main() {
         s1 += m * n;
       }
     }
-    if (offset) {
-      j += offset;
-    }
+    j += offset;
   }
   // p2
   j = 0;
