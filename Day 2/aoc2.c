@@ -124,6 +124,7 @@ int main() {
     }
     free(num);
     free(diff);
+    free(temp);
   }
   printf("safe: %d\nallowed: %d\ntotal: %d\n", safe, allowed, safe + allowed);
   fclose(fp);
