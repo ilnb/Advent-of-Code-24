@@ -19,9 +19,8 @@ int main() {
     int offset = 1, m, n;
     if (strncmp(str + j, "mul(", 4) == 0) {
       sscanf(str + j, "mul(%d,%d)%n", &m, &n, &offset);
-      if (offset != 1) {
+      if (offset != 1)
         s1 += m * n;
-      }
     }
     j += offset;
   }
@@ -30,18 +29,14 @@ int main() {
   int flag = 1, s2 = 0;
   while (j < index) {
     int m, n, offset = 1;
-    if (strncmp(str + j, "don't()", 7) == 0) {
-      flag = 0;
-      j += 7;
-    } else if (strncmp(str + j, "do()", 4) == 0) {
-      flag = 1;
-      j += 4;
-    }
+    if (strncmp(str + j, "don't()", 7) == 0)
+      flag = 0, j += 7;
+    else if (strncmp(str + j, "do()", 4) == 0)
+      flag = 1, j += 4;
     if (strncmp(str + j, "mul(", 4) == 0 && flag) {
       sscanf(str + j, "mul(%d,%d)%n", &m, &n, &offset);
-      if (offset != 1) {
+      if (offset != 1)
         s2 += m * n;
-      }
     }
     j += offset;
   }

@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -14,7 +15,7 @@ int move_left(int *steps, int *row, int *col, data *line);
 
 int main(void) {
   FILE *fp = fopen("input.txt", "r");
-  if (fp == NULL) {
+  if (!fp) {
     printf("Trouble opening the file.\n");
     exit(1);
   }
@@ -23,34 +24,28 @@ int main(void) {
   for (int j = 0; j < LEN; j++) {
     line[j].chr = NULL;
     int i = 0;
-    char c;
-    while ((c = fgetc(fp)) != '\n') {
-      line[j].chr = realloc(line[j].chr, sizeof(char) * (i + 1));
-      line[j].chr[i] = c;
-      i++;
-    }
+    char *l = NULL;
+    size_t len = 0;
+    int r = getline(&l, &len, fp);
+    if (r != -1)
+      line[j].chr = l;
   }
   // position of man
   int row, col, flag = 0;
   for (int j = 0; j < LEN; j++) {
-    for (int i = 0; i < LEN; i++) {
+    for (int i = 0; i < LEN; i++)
       if (line[j].chr[i] == '^') {
-        row = j;
-        col = i;
-        flag++;
+        row = j, col = i, flag++;
         break;
       }
-    }
-    if (flag) {
+    if (flag)
       break;
-    }
   }
   // motion
   int steps = 0;
   flag = move_top(&steps, &row, &col, line);
-  if (flag) {
+  if (flag)
     printf("steps: %d\n", steps);
-  }
   fclose(fp);
   free(line);
   return 0;
@@ -64,9 +59,9 @@ int move_top(int *steps, int *row, int *col, data *line) {
     }
     (*row)--;
   }
-  if (*row == -1) {
+  if (*row == -1)
     return 1;
-  } else {
+  else {
     (*row)++;
     move_right(steps, row, col, line);
   }
@@ -80,9 +75,9 @@ int move_right(int *steps, int *row, int *col, data *line) {
     }
     (*col)++;
   }
-  if (*col == LEN) {
+  if (*col == LEN)
     return 1;
-  } else {
+  else {
     (*col)--;
     move_bot(steps, row, col, line);
   }
@@ -96,9 +91,9 @@ int move_bot(int *steps, int *row, int *col, data *line) {
     }
     (*row)++;
   }
-  if (*row == LEN) {
+  if (*row == LEN)
     return 1;
-  } else {
+  else {
     (*row)--;
     move_left(steps, row, col, line);
   }
@@ -112,9 +107,9 @@ int move_left(int *steps, int *row, int *col, data *line) {
     }
     (*col)--;
   }
-  if (*col == -1) {
+  if (*col == -1)
     return 1;
-  } else {
+  else {
     (*col)++;
     move_top(steps, row, col, line);
   }
